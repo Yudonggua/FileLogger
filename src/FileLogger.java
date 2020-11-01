@@ -4,10 +4,11 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.logging.*;
 import java.io.*;
+
 import static java.lang.Thread.sleep;
 
 class LoggerFormatter extends Formatter {                                   //覆寫Formatter類別
-                                                                            //將xml格式更改為自訂格式
+    //將xml格式更改為自訂格式
     @Override
     public String format(LogRecord record) {
         return "[" + new Date() + "]" + " [" + record.getLevel() + "] "
@@ -22,7 +23,7 @@ public class FileLogger {
     public static void main(String[] args) throws IOException, InterruptedException {
 
         File delFile;                                                           //用來刪除
-        FileHandler fileHandler = new FileHandler("./out/Test.log");    //輸出LOG位置
+        FileHandler fileHandler = new FileHandler("./out/log/FileLogger" + new Date().getTime() + ".log");    //建立Log檔案
         ConsoleHandler consoleHandler = new ConsoleHandler();
         fileHandler.setFormatter(new LoggerFormatter());
         ArrayList original_list = new ArrayList<String>();
@@ -54,7 +55,7 @@ public class FileLogger {
                     if (!(original_list.contains(contrast_list.get(i)))) {
                         LOGGER.info("新增：" + contrast_list.get(i).toString());
                         if (contrast_list.get(i).toString().matches("PKM(.*).tmp")) {   //LOL的暫存檔格式
-                            delFile = new File("./out/" + contrast_list.get(i).toString());
+                            delFile = new File("C:\\Users\\azspe\\AppData\\Local\\Temp\\" + contrast_list.get(i).toString());
                             delFile.delete();
                             LOGGER.info("刪除：" + contrast_list.get(i).toString());
                         }
