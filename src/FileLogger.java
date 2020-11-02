@@ -54,10 +54,15 @@ public class FileLogger {
 
                     if (!(original_list.contains(contrast_list.get(i)))) {
                         LOGGER.info("新增：" + contrast_list.get(i).toString());
-                        if (contrast_list.get(i).toString().matches("PKM(.*).tmp")) {   //LOL的暫存檔格式
-                            delFile = new File("C:\\Users\\azspe\\AppData\\Local\\Temp\\" + contrast_list.get(i).toString());
-                            delFile.delete();
-                            LOGGER.info("刪除：" + contrast_list.get(i).toString());
+                        delFile = new File("C:\\Users\\azspe\\AppData\\Local\\Temp\\" + contrast_list.get(i).toString());
+
+                        if (contrast_list.get(i).toString().matches("PKM(.*)tmp")) {   //LOL的暫存檔格式
+
+                            while (delFile.exists()) {
+                                delFile.delete();
+                                LOGGER.info("刪除：" + contrast_list.get(i).toString());
+                                sleep(1000);
+                            }
                         }
                     }
                 }
