@@ -18,12 +18,16 @@ class LoggerFormatter extends Formatter {                                   //�
 
 public class FileLogger {
     private static final Logger LOGGER = Logger.getLogger(FileLogger.class.getName());
-    private static final File FILE = new File("C:\\Users\\azspe\\AppData\\Local\\Temp");            //監控位置
+    private static final File FILE = new File(System.getProperty("java.io.tmpdir"));            //監控位置
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
         File delFile;                                                           //用來刪除
-        FileHandler fileHandler = new FileHandler("./out/log/FileLogger" + new Date().getTime() + ".log");    //建立Log檔案
+
+        new File("./log").mkdirs();
+
+        FileHandler fileHandler = new FileHandler("./log/" + new Date().getTime() + ".log");    //建立Log檔案
+
         ConsoleHandler consoleHandler = new ConsoleHandler();
         fileHandler.setFormatter(new LoggerFormatter());
         ArrayList original_list = new ArrayList<String>();
@@ -32,7 +36,6 @@ public class FileLogger {
         LOGGER.setLevel(Level.ALL);
         LOGGER.addHandler(consoleHandler);
         LOGGER.addHandler(fileHandler);
-
         //TODO:
         // - While開始 等待時間(10s)
         while (true) {
@@ -56,7 +59,7 @@ public class FileLogger {
                         LOGGER.info("新增：" + contrast_list.get(i).toString());
 
                         if (contrast_list.get(i).toString().matches("PKM(.*)tmp")) {   //LOL的暫存檔格式
-                            delFile = new File("C:\\Users\\azspe\\AppData\\Local\\Temp\\" + contrast_list.get(i).toString());
+                            delFile = new File(System.getProperty("java.io.tmpdir") + contrast_list.get(i).toString());
 
                             while (delFile.exists()) {
                                 delFile.delete();
